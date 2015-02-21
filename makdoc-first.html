@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>MakDoc 소개</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
+  <link rel="stylesheet" type="text/css" href="/bootstrap/dist/css/bootstrap.min.css">
+  <script type="text/javascript" src="/modernizr/modernizr.js"></script>
+  <script type="text/javascript" src="/jquery/dist/jquery.min.js"></script>
+  <script type="text/javascript" src="/bootstrap/dist/js/bootstrap.min.js"></script>
+  <style type="text/css">
+  .sean-navbar {
+    margin-top: 1em;
+  }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="row col-xs-6 col-xs-offset-3">
+      <nav class="navbar navbar-default sean-navbar">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <span class="navbar-brand">Sean <b>Lee</b></span></a>
+          </div>
+          <div>
+            <ul class="nav navbar-nav navbar-right">
+              <li><a href="https://twitter.com/lethee">Tweets</a></li>
+              <li><a href="https://github.com/lethee">Code</a></li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+      <div class="container-fluid">
+        <h4 id="makdoc-">MakDoc 소개</h4>
+<p><a href="https://github.com/pismute/gulp-makdoc">MakDoc</a>은 팀동료 <a href="https://github.com/pismute">@pismute</a>가 만들고 있는 <a href="http://gulpjs.com">Gulp</a> 기반 정적 사이트 생성기입니다.
+<a href="https://pages.github.com">GitHub 페이지</a>랑 굉장히 잘 어울리구요.
+<a href="http://jekyllrb.com">Jekyll</a>이나 <a href="https://docpad.org">Docpad</a>랑 비슷하다고 볼 수 있으며 최대한 간결하고 빠르게 작동하도록 하는 것이 목표라지요.
+사실은 팀블로그 사이트를 <a href="https://docpad.org">Docpad</a>를 써서 관리중이었는데 너무 느리고 방대해져서 다른 생성툴을 찾다가 결국 만들게 되었다고…</p>
+<h4 id="makdoc-">MakDoc 블로그 생성</h4>
+<p>적당히 새로 디렉토리를 생성하고 <code>npm init</code>, <code>npm install</code> 명령으로 기본적인 의존파일을 설치할 수 있습니다.
+마지막 명령은 꽤 오래 걸립니다.</p>
+<pre><code><div class="highlight"><pre><span class="nx">$</span> <span class="nx">mkdir</span> <span class="nx">blog</span>
+<span class="nx">$</span> <span class="nx">cd</span> <span class="nx">blog</span>
+<span class="nx">$</span> <span class="nx">git</span> <span class="nx">init</span>
+<span class="nx">$</span> <span class="nx">npm</span> <span class="nx">init</span>
+<span class="nx">$</span> <span class="nx">npm</span> <span class="nx">install</span> <span class="o">--</span><span class="nx">save</span> <span class="nx">git</span><span class="o">:</span><span class="c1">//github.com/pismute/gulp-makdoc.git</span>
+</pre></div>
+
+</code></pre><p>이제 <code>gulpfile.js</code> 파일을 만들고 MakDoc의 Task를 불러들입니다.
+아직 <code>makdoc</code> 변수는 사용하지 않지만 <code>require</code>로 읽어오면 자동으로 MakDoc 블로그 생성을 위한 Gulp Task를 등록합니다.</p>
+<pre><code><div class="highlight"><pre><span class="kd">var</span> <span class="nx">makdoc</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;gulp-makdoc&#39;</span><span class="p">);</span>
+</pre></div>
+
+</code></pre><p>이제 첫 번째 index 페이지를 만들어줍니다. 아직은 사이트 템플릿 기능을 쓰지 않고 그냥 빈 페이지 하나를 만들어봅니다. <code>app/root/index.html.hbs</code> 경로로 파일을 하나 생성합니다.</p>
+<pre><code><div class="highlight"><pre><span class="o">&lt;!</span><span class="nx">DOCTYPE</span> <span class="nx">html</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="nx">html</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="nx">body</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="nx">h1</span><span class="o">&gt;</span><span class="nx">Hello</span><span class="o">&lt;</span><span class="err">/h1&gt;</span>
+<span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="nx">First</span> <span class="nx">MakDoc</span> <span class="nx">Page</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
+<span class="o">&lt;</span><span class="err">/body&gt;</span>
+<span class="o">&lt;</span><span class="err">/html&gt;</span>
+</pre></div>
+
+</code></pre><p>프로젝트 루트 디렉토리에서 <code>gulp server</code> 또는 <code>gulp watch</code>를 실행하여 사이트를 띄워봅니다.
+이 때 dist 디렉토리가 새로 생성되는데 MakDoc 생성기가 생성한 정적 사이트 파일이 위치하는 디렉토리입니다. .gitignore에 추가해둡니다.
+<code>gulp watch</code>는 <code>app</code> 디렉토리 안의 파일이 변경되면 자동으로 새로 사이트를 생성하고 브라우저에 띄워둔 로컬호스트 사이트도 새로운 내용이 나타나도록 합니다.</p>
+<h4 id="-">이후의 작업</h4>
+<p>다음 포스트에서는 사이트 템플릿을 활용해보고 bower로 클라이언트 라이브러리를 추가해보겠습니다.</p>
+
+      </div>
+      <div class="container-fluid">
+        <div>
+          <p class="text-right small">powered by <a href="http://pages.github.com/">GitHub</a>, <a href="http://github.com/pismute/gulp-makdoc">MakDoc</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
